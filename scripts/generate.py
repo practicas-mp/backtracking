@@ -43,8 +43,11 @@ team1_size, team2_size = get_team_sizes(N)
 first_team_weigths = get_random_weights_with_sum(team1_size, N * 50)
 second_team_weights = get_random_weights_with_sum(team2_size, N * 50 + score_difference)
 
+print "#", sum(first_team_weigths), sum(second_team_weights)
+
 weights = first_team_weigths + second_team_weights
 random.shuffle(weights)
 
-print weights
+for weight in weights:
+	print weight
 
