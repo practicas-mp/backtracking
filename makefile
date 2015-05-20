@@ -1,15 +1,19 @@
 CC = g++
 CPPFLAGS = -Wall -std=c++0x -g -I$(INCLUDE) -I$(SRC)
-SRC = ./src
 INCLUDE = ./include
+OBJ = ./obj
+SRC = ./src
 BIN = ./bin
-ALGS = backtrack
+ALGS = backtrack bb
 
-all:
-	$(CC) $(CPPFLAGS) $(SRC)/main.cpp -o $(BIN)/main
+all: $(OBJ)/Player.o
+	$(CC) $(CPPFLAGS) $(SRC)/main.cpp $^ -o $(BIN)/main
 
 install:
-	mkdir -p $(BIN) build
+	mkdir -p $(BIN) $(OBJ) build
+
+$(OBJ)/Player.o: $(SRC)/structures/Player.cpp
+	$(CC) $(CPPFLAGS) -o $@ -c $<
 
 # $(ALGS): %: $(SRC)/algorithms/%.cpp
 # 	$(CC) $(CPPFLAGS) $(SRC)/algorithms/$@.cpp -o $(BIN)/$@

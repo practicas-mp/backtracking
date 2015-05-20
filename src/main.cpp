@@ -1,4 +1,4 @@
-#include "algorithms/backtrack.cpp"
+#include "algorithms/bb.cpp"
 #include "structures/Player.h"
 #include <fstream>
 #include <iostream>
@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 
         auto teams = getTeams(players);
 
-        for(auto player: teams.first){
+        for(auto player: teams.second){
             cout << player.id << ' ';
         }
 

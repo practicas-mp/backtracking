@@ -35,7 +35,7 @@ pair <vector <Player>, vector <Player> > getTeams(vector <Player> players){
     stack <int> ref;
     ref.push(-1);
 
-    while(level > -1){
+    while(level > -1){  // TODO: revise diffs stuff
         if(level <= size or curr_score > total_score / 2){
             curr_diff = abs(curr_best_diff - 2 * players[level].score);
             curr_score += players[level].score
