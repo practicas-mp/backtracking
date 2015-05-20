@@ -19,15 +19,19 @@ int main(int argc, char **argv){
         vector <Player> players;
         input_file >> players;
 
-        auto teams = getTeams(players);
+        // getTeams(players);
+        vector <Player> team = getTeam(players);
 
-        for(auto player: teams.second){
+        for(auto player: team){
             cout << player.id << ' ';
         }
+
+        cout << endl << getTeamScore(team);
 
     } else {
         cerr << "Error opening file" << endl;
         return 1;
     }
 
+    return 0;
 }

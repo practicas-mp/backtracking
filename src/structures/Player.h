@@ -17,6 +17,8 @@ struct Player {
 
     void autoID();
 
+    bool operator==(const Player &other){ return this->id == other.id; }
+
     friend istream& operator>>(istream &is, Player &player);
 
     friend istream& operator>>(istream &is, vector <Player> &players);
