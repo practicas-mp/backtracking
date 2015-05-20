@@ -140,9 +140,14 @@ de sus miembros sea la misma.
 
 \section{Soluciones}
 \subsection{Backtracking}
+Para realizar el trabajo que se nos pedía en la práctica realizamos en primer lugar un algoritmo ingenuo utilizando backtracking. Debido a que el algoritmo ha de probar todos las posibles divisiones en equipos, se ejecuta con un orden de eficiencia temporal de $O(2^n)$. 
+
+Debido a su poca eficiencia, este algoritmo resulta inviable para resolver el problema de forma seria, por lo que se hace necesario incorporar mejoras. De eso nos encargaremos en la próxima sección.
 
 \subsection{Poda}
+El algoritmo de poda nace de la siguiente observación: si conseguimos averiguar de alguna manera que la solución que estamos explorando no puede llegar a ser la óptima, ¿para qué seguir explorándola?. Darse cuenta de eso puede significar que los tiempos de ejecución disminuyan considerablemente. 
 
+La pregunta es ¿cómo nos damos cuenta de que una solución no va a ser óptima? Si vemos que el equipo que estamos explorando tiene más puntos que la mitad de los puntos disponibles, no tiene sentido seguir añadiendo jugadores a este equipo, pues la diferencia de puntos entre ambos equipos no podrá hacer más que verse ampliada. 
 
 \section{Comparación de rendimiento}
 
