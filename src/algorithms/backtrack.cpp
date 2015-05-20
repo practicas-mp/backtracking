@@ -60,7 +60,7 @@ pair< vector<Player>, vector<Player> >getTeams(vector<Player> players){
         curr_diff = total_score - 2 * getTeamScore(teams[i]);
 
         if(curr_diff == 0){
-            return make_pair(teams[i], teams[teams.size() - i - 1]) ;
+            return make_pair(teams[i], teams[teams.size() - i - 2]) ;
         } else if(curr_diff < curr_best_diff){
             curr_diff = curr_best_diff;
             curr_best_index = i;

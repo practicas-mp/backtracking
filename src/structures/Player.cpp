@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -18,11 +19,11 @@ Player::Player(int score) :
 int Player::uid = 0;
 
 void Player::autoID(){
-    this->id = Player.uid++;
+    this->id = Player::uid++;
 }
 
 
-istream& operator>>(istream &is, Player player){
+istream& operator>>(istream &is, Player &player){
     int score;
 
     is >> score;
@@ -34,9 +35,9 @@ istream& operator>>(istream &is, Player player){
 }
 
 
-istream& operator>>(istream &is, vector <Player&> players){
+istream& operator>>(istream &is, vector <Player> &players){
     string foo;
-    is >> foo;
+    getline(is, foo);
 
     while(!is.eof()){
         Player player;

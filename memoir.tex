@@ -145,9 +145,18 @@ Para realizar el trabajo que se nos pedía en la práctica realizamos en primer 
 Debido a su poca eficiencia, este algoritmo resulta inviable para resolver el problema de forma seria, por lo que se hace necesario incorporar mejoras. De eso nos encargaremos en la próxima sección.
 
 \subsection{Poda}
-El algoritmo de poda nace de la siguiente observación: si conseguimos averiguar de alguna manera que la solución que estamos explorando no puede llegar a ser la óptima, ¿para qué seguir explorándola?. Darse cuenta de eso puede significar que los tiempos de ejecución disminuyan considerablemente. 
+El algoritmo de poda nace de la siguiente observación: si conseguimos averiguar de alguna manera que la solución que estamos explorando no puede llegar a ser la óptima, ¿para qué seguir explorándola?. Darse cuenta de eso puede significar que los tiempos de ejecución disminuyan considerablemente.
 
-La pregunta es ¿cómo nos damos cuenta de que una solución no va a ser óptima? Si vemos que el equipo que estamos explorando tiene más puntos que la mitad de los puntos disponibles, no tiene sentido seguir añadiendo jugadores a este equipo, pues la diferencia de puntos entre ambos equipos no podrá hacer más que verse ampliada. 
+En este caso, las soluciones parciales serán vectores $(x_1, ..., x_i)$ con
+$x_i \in \{0, 1\}$, donde 0 representa que el jugador i-ésimo no se encuentra en la solución parcial
+y 1 que sí. En cada paso comprobaremos qué ocurre cuando a dicha solución parcial le añadimos un 0
+o un 1, es decir, si metemos el (i+1)-ésimo jugador en el equipo o no. 
+
+Ahora bien, si ese nuevo equipo tiene más de la mitad de puntuación podemos descartarlo directamente
+y seguir por otra rama. Si esto ocurriera, significaría que el equipo \"contrario\" tendría menos de la 
+mitad de la puntuación total, por lo que esa solución sí la consideraríamos. Además, seguir explorando esa 
+rama sólo podría aumentar la diferencia de puntuación entre ambos equipos, justo lo contrario de lo
+que buscamos.
 
 \section{Comparación de rendimiento}
 

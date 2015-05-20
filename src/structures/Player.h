@@ -1,6 +1,11 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 
 struct Player {
     int id;     // we need some kind of identifier
@@ -8,13 +13,13 @@ struct Player {
 
     Player();
 
-    Player(int id, int score);
+    Player(int score);
 
     void autoID();
 
-    inline bool operator<(const Player &other) const { return id < other.id; }
+    friend istream& operator>>(istream &is, Player &player);
 
-    inline bool operator==(const Player &other) const { return id == other.id; }
+    friend istream& operator>>(istream &is, vector <Player> &players);
 
     private:
         static int uid;
