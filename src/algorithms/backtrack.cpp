@@ -3,69 +3,57 @@
 #include <utility>
 #include <vector>
 #include <stack>
+#include <cmath>
 
 using namespace std;
 
-pair< vector<Player>, vector<Player> >getTeams(vector<Player> players){
+vector<Player> getTeams(vector<Player> players){
     vector<Player> currentSolution;
+    vector<Player> bestSolution = players;
     int goalScore = getTeamScore(players) / 2;
-    int currentScore = 0;
+    int currentScore = 0, bestScore = goalScore * 4;
     int lastId = players.back().id;
 
     for(auto player : players) {
-
+        currentScore = player.score;
+        currentSolution.clear();
         currentSolution.push_back(player);
 
         while (currentSolution.empty() == false) {
+
+            if (currentScore == goalScore){
+                return currentSolution;
+            } else if (abs(goalScore - currentScore) < abs(goalScore - bestScore) ){
+                bestSolution = currentSolution;
+                bestScore = currentScore;
+            }
 
             int currentPlayerId = currentSolution.back().id;
 
             if (currentPlayerId != lastId){
                 Player playerToAdd = players[currentPlayerId + 1];
                 currentSolution.push_back(playerToAdd);
-                currentScore += playerToAdd.weight;
-
             } else {
                 int lastTriedId = lastId;
 
                 while (lastTriedId == lastId && currentSolution.size() > 1) {
                     currentSolution.pop_back();
+                    currentScore -= players[lastTriedId].score;
                     lastTriedId = currentSolution.back().id;
                 }
+                currentScore -= players[lastTriedId].score;
                 currentSolution.pop_back();
                 
-                if (currentSolution.empty()) break;
+                if (currentSolution.empty()) continue;
 
                 currentSolution.push_back(players[lastTriedId + 1]);
-                currentScore += players[lastTriedId + 1].weight;
             }
 
-            if (currentScore == goalScore){
-                return make_pair(currentSolution, currentSolution);
-            }
-
+            currentScore += currentSolution.back().score;
         }
     }
+
+    return bestSolution;
 
 }
 
-
-/*pair <vector <Player>, vector <Player> > getTeams(vector <Player> players){
-    vector<vector <Player> > teams = powerset(players);
-    int size = teams.size() / 2, total_score = getTeamScore(players),
-        curr_diff, curr_best_index = 0,
-        curr_best_diff = total_score - 2 * getTeamScore(teams[0]);
-
-    for(int i = 1; i < size; ++i){
-        curr_diff = total_score - 2 * getTeamScore(teams[i]);
-
-        if(curr_diff == 0){
-            return make_pair(teams[i], teams[teams.size() - i - 2]) ;
-        } else if(curr_diff < curr_best_diff){
-            curr_diff = curr_best_diff;
-            curr_best_index = i;
-        }
-    }
-
-    return make_pair(teams[curr_best_index], teams[teams.size() - curr_best_index - 1]);
-}*/

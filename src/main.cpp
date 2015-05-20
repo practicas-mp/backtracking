@@ -1,4 +1,4 @@
-#include "algorithms/bb.cpp"
+#include "algorithms/backtrack.cpp"
 #include "structures/Player.h"
 #include <fstream>
 #include <iostream>
@@ -19,11 +19,13 @@ int main(int argc, char **argv){
         vector <Player> players;
         input_file >> players;
 
-        auto teams = getTeams(players);
+        auto team = getTeams(players);
 
-        for(auto player: teams.second){
+        for(auto player: team){
             cout << player.id << ' ';
         }
+
+        cout << endl;
 
     } else {
         cerr << "Error opening file" << endl;
