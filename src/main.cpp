@@ -27,6 +27,8 @@ int main(int argc, char **argv){
 
         cout << endl;
 
+        cout << "Score: " << getTeamScore(team) << endl;
+
     } else {
         cerr << "Error opening file" << endl;
         return 1;
