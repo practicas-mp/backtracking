@@ -1,4 +1,4 @@
-#include "algorithms/backtrack.cpp"
+#include "algorithms/bb.cpp"
 #include "structures/Player.h"
 #include <fstream>
 #include <iostream>
@@ -24,8 +24,7 @@ int main(int argc, char **argv){
             cout << player.id << ' ';
         }
 
-        cout << endl << getTeamScore(team);+
-
+        cout << endl << getTeamScore(team);
     } else {
         cerr << "Error opening file" << endl;
         return 1;

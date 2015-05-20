@@ -139,13 +139,21 @@ de sus miembros sea la misma.
 \end{quote}
 
 \section{Soluciones}
+
+Es bueno darse cuenta antes de empezar a trabajar que en realidad este problema
+es completamente equivalente al \textit{subset problem}, i.e., encontrar si existe
+un subconjunto de un conjunto dado que sume $k$. Esto nos facilita la labor ya
+que nos da igual uno de los dos equipos, sólo tenemos que trabajar con uno (el subconjunto
+buscado) e ir aproximándonos al valor $k$, que en nuestro caso será la mitad de la 
+suma total de la puntuación de todos jugadores.
+
 \subsection{Backtracking}
-Para realizar el trabajo que se nos pedía en la práctica realizamos en primer lugar un algoritmo ingenuo utilizando backtracking. Debido a que el algoritmo ha de probar todos las posibles divisiones en equipos, se ejecuta con un orden de eficiencia temporal de $O(2^n)$. 
+Para realizar el trabajo que se nos pedía en la práctica realizamos en primer lugar un algoritmo ingenuo utilizando backtracking. Dado que el algoritmo ha de probar todos las posibles divisiones en equipos, se ejecuta con un orden de eficiencia temporal de $O(2^n)$. 
 
 Debido a su poca eficiencia, este algoritmo resulta inviable para resolver el problema de forma seria, por lo que se hace necesario incorporar mejoras. De eso nos encargaremos en la próxima sección.
 
-\subsection{Poda}
-El algoritmo de poda nace de la siguiente observación: si conseguimos averiguar de alguna manera que la solución que estamos explorando no puede llegar a ser la óptima, ¿para qué seguir explorándola?. Darse cuenta de eso puede significar que los tiempos de ejecución disminuyan considerablemente.
+\subsection{Poda (\protect\textit{Branch \& Bound})}
+El algoritmo de poda nace de la siguiente observación: si conseguimos averiguar de alguna manera que la solución que estamos explorando no puede llegar a ser la óptima, ¿para qué seguir explorándola? Darse cuenta de eso puede significar que los tiempos de ejecución disminuyan considerablemente.
 
 En este caso, las soluciones parciales serán vectores $(x_1, ..., x_i)$ con
 $x_i \in \{0, 1\}$, donde 0 representa que el jugador i-ésimo no se encuentra en la solución parcial
@@ -160,5 +168,63 @@ que buscamos.
 
 \section{Comparación de rendimiento}
 
+Para comparar los algoritmos vamos a ejecutarlos con sets de datos de 5 a 50 elementos
+y medir el tiempo de ejecución. Antes de esto, cabe esperar que la segunda versión sea
+mejor, ya que evita muchas de las comprobaciones. Efectivamente, así se comprueba en los 
+datos obtenidos:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+
+\hline
+Tamaño del problema & Backtracking & Branch \& Bound \\
+\hline
+\hline
+5 & 0.0000646430 & 0.0000031570 \\
+\hline
+10 & 0.0003192760 & 0.0000113580 \\
+\hline
+15 & 0.0008492850 & 0.0000099330 \\
+\hline
+20 & 0.0051420740 & 0.0000070650 \\
+\hline
+25 & 0.0137037790 & 0.0000064230 \\
+\hline
+30 & 0.1462037010 & 0.0000229280 \\
+\hline
+35 & 0.7887776860 & 0.0000099950 \\
+\hline
+40 & 10.5693192850 & 0.0000182760 \\
+\hline
+45 & 25.9811328990 & 0.0000089000 \\
+\hline
+50 & 55.9817939720 & 0.0000096890 \\
+\hline
+\end{tabular}
+\end{center}
+
+\includegraphics[scale=0.7]{data/graph.jpg}
+
+Como se puede observar, el primer algoritmo ni siquiera se acerca al otro en cuanto
+a eficiencia y velocidad. Esto se debe, como ya hemos comentado, a la gran cantidad
+de casos inútiles que el primero procesa mientras el segundo se los ahorra.
+
+Esto se ve más fácilmente si pensamos en el último ejemplo de los 50 jugadores.
+Suponiendo una distribución más o menos uniforme de las puntuaciones, metidos 25 jugadores
+en un equipo las puntuaciones se acercarían mucho. Si, por ejemplo, necesitáramos hasta
+30 jugadores para pasarnos de la mitad, aun así nos ahorraríamos $2^{20} = 1048576$ casos
+que el otro algoritmo habría de comprobar. Esto, además, se produciría para cada
+equipo de 30 jugadores, esto es, ${50 \choose 30} = 47129212243960$. Obviamente esto es 
+sólo una aproximación al caso real y los números no son todo lo precisos que deberían,
+pero sirven para hacernos una idea de cuánto mejor es el segundo algoritmo respecto del
+primero.
+
 \section{Conclusiones}
+
+Como hemos visto a lo largo de esta memoria, los algoritmos que usan poda resultan
+mucho mejores que sus homólogos básicos, ya que consigues ahorrarse el procesamiento
+de gran cantidad de casos que, de todas formas, no iban a resultar de utilidad a la hora
+de encontrar una solución. Por eso, siempre debemos intentar ver qué condiciones de poda
+podemos aplicar a un cierto problema mientras buscamos las soluciones.
+
 \end{document}

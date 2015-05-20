@@ -2,6 +2,7 @@
 #include "util.cpp"
 
 #include <algorithm>
+#include <cassert>
 #include <stack>
 #include <utility>
 #include <vector>
@@ -21,6 +22,8 @@ vector <Player> getTeam(vector <Player> players){
     ref.push(-1);
 
     while(level > -1){  // TODO: revise diffs stuff
+        assert(level == size or level == players[level].id or level == -1);
+
         if(level < size and curr_score <= total_score / 2){
             new_diff = curr_diff - 2 * players[level].score;
 
@@ -37,14 +40,16 @@ vector <Player> getTeam(vector <Player> players){
                 if(curr_diff == 0){
                     break;
                 }
-            }
 
-            ref.push(level + 1);
+                ref.push(level + 1);
+            }
+            
             ++level;
         } else {
-            if(curr_solution.back().id == level){
-                curr_diff += 2 * players[level - 1].score;
-                curr_score -= players[level - 1].score;
+            curr_diff += 2 * players[level - 1].score;
+            curr_score -= players[level - 1].score;
+            
+            if(not curr_solution.empty()){
                 curr_solution.pop_back();
             }
 
