@@ -6,57 +6,61 @@
 #include <stack>
 #include <utility>
 #include <vector>
+#include <stack>
 
 using namespace std;
 
 
-vector <Player> getTeam(vector <Player> players){
-    int size = players.size(), level = 0,
-        total_score = getTeamScore(players),
-        curr_best_diff = total_score,
-        curr_score = 0, curr_diff = total_score, new_diff;
+vector<Player> getTeam(vector<Player> players){
+    vector<Player> currentSolution, bestSolution;
+    stack<int> currentRefs;
+    int bestDiff = getTeamScore(players);
+    int goalScore = bestDiff / 2, bestScore = 0, currentScore = 0;
+    int lastId = players.back().id;
 
-    vector <Player> curr_solution, curr_best_solution;
-    curr_solution.reserve(players.size());
-    stack <int> ref;
-    ref.push(-1);
+    for (auto player: players) {
+        currentRefs.push(player.id);
+        currentSolution.push_back(player);
+        currentScore = player.score;
+        while(!currentRefs.empty()){
 
-    while(level > -1){  // TODO: revise diffs stuff
-        assert(level == size or level == players[level].id or level == -1);
+            if (currentScore == goalScore){
+                return currentSolution;
+            } else if (abs(goalScore - currentScore) < abs(goalScore - bestScore)){
+                bestSolution = currentSolution;
+                bestScore = currentScore;
+            }
 
-        if(level < size and curr_score <= total_score / 2){
-            new_diff = curr_diff - 2 * players[level].score;
+            int currentPlayerId = currentSolution.back().id;
 
-            if(abs(new_diff) < abs(curr_diff)){
-                curr_solution.push_back(players[level]);
-                curr_diff = new_diff;
-                curr_score += players[level].score;
+            if (currentPlayerId != lastId && currentScore < goalScore) {
+                Player playerToAdd = players[currentPlayerId + 1];
+                currentSolution.push_back(playerToAdd);
+                currentRefs.push(playerToAdd.id);
+                currentScore += playerToAdd.score;
+            } else {
+                int lastIdTried = lastId;
+                do {
+                    lastIdTried = currentRefs.top();
+                    currentScore -= currentSolution.back().score;
+                    currentSolution.pop_back();
+                    currentRefs.pop();
+                } while(lastIdTried == lastId && !currentRefs.empty());
                 
-                if(abs(curr_diff) < curr_best_diff){
-                    curr_best_diff = abs(curr_diff);
-                    curr_best_solution = curr_solution;
-                }
+                if (currentRefs.empty()) break;
 
-                if(curr_diff == 0){
-                    break;
-                }
-
-                ref.push(level + 1);
-            }
-            
-            ++level;
-        } else {
-            curr_diff += 2 * players[level - 1].score;
-            curr_score -= players[level - 1].score;
-            
-            if(not curr_solution.empty()){
-                curr_solution.pop_back();
+                Player playerToAdd = players[lastIdTried + 1];
+                currentSolution.push_back(playerToAdd);
+                currentRefs.push(playerToAdd.id);
+                currentScore += playerToAdd.score;
             }
 
-            level = ref.top();
-            ref.pop();
+
         }
+
+
     }
 
-    return curr_best_solution;
+
+    return bestSolution;
 }
